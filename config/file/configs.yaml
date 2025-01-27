@@ -1,0 +1,2 @@
+service:
+  http_port: 2000
