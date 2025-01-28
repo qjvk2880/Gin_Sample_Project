@@ -1,30 +1,44 @@
 package logic
 
 import (
-	"errors"
 	"example/web-service-gin/repository"
+	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-type Logic struct {
-	repo repository.Repository
-}
+type Logic struct{}
 
-func NewLogic(repo repository.Repository) *Logic {
-	return &Logic{repo: repo}
-}
+var albumRepo repository.Repository = repository.NewMemoryRepository()
 
-func (l *Logic) GetAllAlbums() ([]repository.Album, error) {
-	return l.repo.GetAll()
-}
-
-func (l *Logic) GetAlbumByID(id string) (*repository.Album, error) {
-	return l.repo.GetByID(id)
-}
-
-func (l *Logic) SaveAlbum(album repository.Album) error {
-	if album.Title == "" {
-		return errors.New("album title cannot be empty")
+func (l *Logic) GetAllAlbums(c *gin.Context) {
+	albums, err := albumRepo.GetAll()
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "not found"})
 	}
 
-	return l.repo.Save(album)
+	c.IndentedJSON(http.StatusOK, albums)
+}
+
+func (l *Logic) GetAlbumByID(c *gin.Context) {
+	id := c.Param("id")
+	album, err := albumRepo.GetByID(id)
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+	}
+
+	c.IndentedJSON(http.StatusOK, album)
+}
+
+func (l *Logic) SaveAlbum(c *gin.Context) {
+	var newAlbum repository.Album
+	if err := c.BindJSON(&newAlbum); err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+	}
+
+	err := albumRepo.Save(newAlbum)
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+	}
+
+	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
