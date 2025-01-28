@@ -1,6 +1,8 @@
 package main
 
 import (
+	"example/web-service-gin/config"
+	"flag"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -19,6 +21,11 @@ var albums = []album{
 }
 
 func main() {
+	configFlag := flag.String("config", "dev", "config flag can be dev for develop or prod for production")
+	prodConfigPath := flag.String("config-path", "", "config-path production config file path")
+
+	config.Init(configFlag, prodConfigPath)
+
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
