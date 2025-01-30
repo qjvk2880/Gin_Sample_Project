@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"example/web-service-gin/model"
 	"example/web-service-gin/repository"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -30,7 +31,7 @@ func (l *Logic) GetAlbumByID(c *gin.Context) {
 }
 
 func (l *Logic) SaveAlbum(c *gin.Context) {
-	var newAlbum repository.Album
+	var newAlbum model.Album
 	if err := c.BindJSON(&newAlbum); err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 	}

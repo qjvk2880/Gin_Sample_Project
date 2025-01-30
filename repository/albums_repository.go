@@ -1,28 +1,24 @@
 package repository
 
-import "errors"
-
-type Album struct {
-	ID     string  `json:"id"`
-	Title  string  `json:"title"`
-	Artist string  `json:"artist"`
-	Price  float64 `json:"price"`
-}
+import (
+	"errors"
+	"example/web-service-gin/model"
+)
 
 // album 저장소 인터페이스
 type Repository interface {
-	GetAll() ([]Album, error)
-	GetByID(id string) (*Album, error)
-	Save(album Album) error
+	GetAll() ([]model.Album, error)
+	GetByID(id string) (*model.Album, error)
+	Save(album model.Album) error
 }
 
 // In-Memory 저장소 구현
 type MemoryRepository struct {
-	albums []Album
+	albums []model.Album
 }
 
 func NewMemoryRepository() *MemoryRepository {
-	var albums = []Album{
+	var albums = []model.Album{
 		{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
 		{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
 		{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
@@ -31,11 +27,11 @@ func NewMemoryRepository() *MemoryRepository {
 	return &MemoryRepository{albums: albums}
 }
 
-func (r *MemoryRepository) GetAll() ([]Album, error) {
+func (r *MemoryRepository) GetAll() ([]model.Album, error) {
 	return r.albums, nil
 }
 
-func (r *MemoryRepository) GetByID(id string) (*Album, error) {
+func (r *MemoryRepository) GetByID(id string) (*model.Album, error) {
 	for _, a := range r.albums {
 		if a.ID == id {
 			return &a, nil
@@ -44,7 +40,7 @@ func (r *MemoryRepository) GetByID(id string) (*Album, error) {
 	return nil, errors.New("album not found")
 }
 
-func (r *MemoryRepository) Save(album Album) error {
+func (r *MemoryRepository) Save(album model.Album) error {
 	r.albums = append(r.albums, album)
 	return nil
 }
