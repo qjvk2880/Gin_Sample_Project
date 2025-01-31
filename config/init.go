@@ -1,10 +1,8 @@
 package config
 
 import (
-	"example/web-service-gin/model"
 	"fmt"
 	"gopkg.in/yaml.v3"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
 	"os"
@@ -31,17 +29,6 @@ func Init(Config, ConfigPath *string) {
 		configPath = *ConfigPath
 	}
 	load(configPath)
-
-	DB, err := gorm.Open(mysql.Open(dbURL()), &gorm.Config{})
-	if err != nil {
-		log.Fatalf("Database connection failed: %v", err)
-	}
-
-	if err := DB.AutoMigrate(&model.Album{}); err != nil {
-		log.Fatalf("AutoMigrate failed: %v", err)
-	}
-
-	_ = DB
 }
 
 func load(ConfigsPath string) {
@@ -55,7 +42,7 @@ func load(ConfigsPath string) {
 	}
 }
 
-func dbURL() string {
+func DbUrl() string {
 	return fmt.Sprintf(
 		"%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
 		Configs.MySql.User,

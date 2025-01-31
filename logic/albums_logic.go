@@ -3,6 +3,7 @@ package logic
 import (
 	"example/web-service-gin/model"
 	"example/web-service-gin/repository"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -10,7 +11,7 @@ import (
 
 type Logic struct{}
 
-var albumRepo repository.Repository = repository.NewMemoryRepository()
+var albumRepo repository.Repository = repository.NewRdbRepository()
 
 func (l *Logic) GetAllAlbums(c *gin.Context) {
 	albums, err := albumRepo.GetAll()
@@ -39,6 +40,7 @@ func (l *Logic) SaveAlbum(c *gin.Context) {
 
 	err := albumRepo.Save(newAlbum)
 	if err != nil {
+		fmt.Println(err)
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 	}
 
