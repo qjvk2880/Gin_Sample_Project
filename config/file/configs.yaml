@@ -1,2 +1,9 @@
 service:
   http_port: 2000
+
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  db_name: test
+  password: alsdnr12
