@@ -5,6 +5,7 @@ import (
 	"example/web-service-gin/repository"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type Logic struct{}
@@ -21,8 +22,8 @@ func (l *Logic) GetAllAlbums(c *gin.Context) {
 }
 
 func (l *Logic) GetAlbumByID(c *gin.Context) {
-	id := c.Param("id")
-	album, err := albumRepo.GetByID(id)
+	id, _ := strconv.ParseUint(c.Param("id"), 0, 64)
+	album, err := albumRepo.GetByID(uint(id))
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 	}
