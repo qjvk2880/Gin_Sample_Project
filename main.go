@@ -2,8 +2,10 @@ package main
 
 import (
 	"example/web-service-gin/config"
+	"example/web-service-gin/model"
 	httpEngine "example/web-service-gin/router/http"
 	"flag"
+	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -20,6 +22,14 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	fmt.Println("0000")
+	err := config.DB.AutoMigrate(&model.Album{}, &model.Review{})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("0000")
 
 	httpEngine.Run(config.Configs.Service.HttpPort)
 }
