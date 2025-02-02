@@ -11,7 +11,7 @@ import (
 
 type Logic struct{}
 
-var albumRepo repository.Repository = repository.NewRdbRepository()
+var albumRepo repository.AlbumRepository = repository.NewAlbumRdbRepository()
 
 func (l *Logic) GetAllAlbums(c *gin.Context) {
 	albums, err := albumRepo.GetAll()

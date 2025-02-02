@@ -11,13 +11,13 @@ var l *logic.Logic
 func Run(Port string) {
 	router := gin.Default()
 
-	var l = logic.Logic{}
+	var albumLogic = logic.Logic{}
 
-	router.GET("/albums", l.GetAllAlbums)
+	router.GET("/albums", albumLogic.GetAllAlbums)
 
-	router.GET("/albums/:id", l.GetAlbumByID)
+	router.GET("/albums/:id", albumLogic.GetAlbumByID)
 
-	router.POST("/albums", l.SaveAlbum)
+	router.POST("/albums", albumLogic.SaveAlbum)
 
 	fmt.Println(router.Run("localhost:8080"))
 }

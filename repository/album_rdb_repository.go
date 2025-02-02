@@ -7,13 +7,13 @@ import (
 	"gorm.io/gorm"
 )
 
-type RdbRepository struct{}
+type AlbumRdbRepository struct{}
 
-func NewRdbRepository() *RdbRepository {
-	return &RdbRepository{}
+func NewAlbumRdbRepository() *AlbumRdbRepository {
+	return &AlbumRdbRepository{}
 }
 
-func (r RdbRepository) GetAll() ([]model.Album, error) {
+func (r AlbumRdbRepository) GetAll() ([]model.Album, error) {
 	var albums []model.Album
 	result := config.DB.Find(&albums) // SELECT * FROM albums;
 
@@ -23,7 +23,7 @@ func (r RdbRepository) GetAll() ([]model.Album, error) {
 	return albums, nil
 }
 
-func (r RdbRepository) GetByID(id uint) (*model.Album, error) {
+func (r AlbumRdbRepository) GetByID(id uint) (*model.Album, error) {
 	var album model.Album
 	result := config.DB.First(&album, id) // SELECT * FROM albums WHERE id = ? LIMIT 1;
 
@@ -36,7 +36,7 @@ func (r RdbRepository) GetByID(id uint) (*model.Album, error) {
 	return &album, nil
 }
 
-func (r RdbRepository) Save(album model.Album) error {
+func (r AlbumRdbRepository) Save(album model.Album) error {
 	if config.DB == nil {
 		return fmt.Errorf("database connection is not initialized")
 	}
