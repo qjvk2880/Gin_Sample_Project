@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var err error
@@ -18,7 +19,7 @@ func main() {
 
 	config.Init(configFlag, prodConfigPath)
 
-	config.DB, err = gorm.Open(mysql.Open(config.DbUrl()), &gorm.Config{})
+	config.DB, err = gorm.Open(mysql.Open(config.DbUrl()), &gorm.Config{Logger: logger.Default.LogMode(logger.Info)})
 	if err != nil {
 		return
 	}
