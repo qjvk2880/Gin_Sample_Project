@@ -6,12 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var l *logic.Logic
+var l *logic.AlbumLogic
 
 func Run(Port string) {
 	router := gin.Default()
 
-	var albumLogic = logic.Logic{}
+	var albumLogic = logic.AlbumLogic{}
 
 	router.GET("/albums", albumLogic.GetAllAlbums)
 
