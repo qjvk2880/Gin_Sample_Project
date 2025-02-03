@@ -11,10 +11,10 @@ func NewReviewRdbRepository() *ReviewRdbRepository {
 	return &ReviewRdbRepository{}
 }
 
-func (r ReviewRdbRepository) GetAllByAlbum(albumId int) ([]model.Review, error) {
+func (r ReviewRdbRepository) GetAllByAlbum(albumId uint) ([]model.Review, error) {
 	var reviews []model.Review
 
-	result := config.DB.Joins("Album", config.DB.Where(&model.Review{AlbumID: uint(albumId)})).Find(&reviews)
+	result := config.DB.Preload("Album").Where("album_id = ?", albumId).Find(&reviews)
 
 	if result.Error != nil {
 		return nil, result.Error
