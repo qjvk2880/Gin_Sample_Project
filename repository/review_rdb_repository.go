@@ -14,7 +14,7 @@ func NewReviewRdbRepository() *ReviewRdbRepository {
 func (r ReviewRdbRepository) GetAllByAlbum(albumId uint) ([]model.Review, error) {
 	var reviews []model.Review
 
-	result := config.DB.Preload("Album").Where("album_id = ?", albumId).Find(&reviews)
+	result := config.DB.Find(&reviews, "album_id = ?", albumId)
 
 	if result.Error != nil {
 		return nil, result.Error
