@@ -22,3 +22,12 @@ func (r ReviewRdbRepository) GetAllByAlbum(albumId uint) ([]model.Review, error)
 
 	return reviews, nil
 }
+
+func (r ReviewRdbRepository) Save(review model.Review) error {
+	result := config.DB.Create(&review)
+
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

@@ -22,5 +22,7 @@ func Run(Port string) {
 
 	router.GET("/reviews/:id", reviewLogic.GetAllReviewsByAlbumId)
 
+	router.POST("/reviews", reviewLogic.SaveReview)
+
 	fmt.Println(router.Run("localhost:8080"))
 }

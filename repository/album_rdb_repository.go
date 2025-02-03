@@ -37,10 +37,6 @@ func (r AlbumRdbRepository) GetByID(id uint) (*model.Album, error) {
 }
 
 func (r AlbumRdbRepository) Save(album model.Album) error {
-	if config.DB == nil {
-		return fmt.Errorf("database connection is not initialized")
-	}
-
 	result := config.DB.Create(&album)
 
 	if result.Error != nil {
